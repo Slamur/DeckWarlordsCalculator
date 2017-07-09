@@ -5,12 +5,24 @@
 <GridPane fx:controller="com.slamur.app.deckwarlords.calculator.TokensTableController"
           xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
 
-    <TableView fx:id="tokensTableView" GridPane.rowIndex="0">
-        <columns>
-            <TableColumn text="Index" fx:id="creatureIdColumn"/>
-            <TableColumn text="Name" fx:id="creatureNameColumn"/>
-        </columns>
-    </TableView>
+    <HBox GridPane.rowIndex="0" spacing="20">
+        <TableView fx:id="creaturesTableView">
+            <columns>
+                <TableColumn text="Index" fx:id="creatureIdColumn"/>
+                <TableColumn text="Name" fx:id="creatureNameColumn"/>
+            </columns>
+        </TableView>
+
+        <TableView fx:id="tokensTableView">
+            <columns>
+                <TableColumn text="Name" fx:id="tokenNameColumn"/>
+                <TableColumn text="Count" fx:id="tokenCountColumn"/>
+                <TableColumn text="Inc" fx:id="tokenCountIncColumn"/>
+                <TableColumn text="Dec" fx:id="tokenCountDecColumn"/>
+                <TableColumn text="Forge" fx:id="tokenCountForgeColumn"/>
+            </columns>
+        </TableView>
+    </HBox>
 
     <AnchorPane GridPane.rowIndex="1">
         <HBox AnchorPane.bottomAnchor="20" AnchorPane.rightAnchor="20" spacing="20">

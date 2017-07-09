@@ -4,6 +4,7 @@ import com.slamur.app.deckwarlords.cards.Attribute;
 import com.slamur.app.deckwarlords.cards.Card;
 import com.slamur.app.deckwarlords.cards.CardInfo;
 import com.slamur.app.deckwarlords.cards.CreatureInfo;
+import com.slamur.app.deckwarlords.cards.counters.CardCounter;
 import com.slamur.app.deckwarlords.cards.creatures.Creatures;
 import com.slamur.app.deckwarlords.cards.stars.Creature;
 import com.slamur.app.deckwarlords.cards.stars.Token;
@@ -15,9 +16,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.cell.ComboBoxTableCell;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.StringConverter;
 
-import java.awt.*;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.ResourceBundle;
@@ -25,10 +26,28 @@ import java.util.stream.IntStream;
 
 public class TokensTableController implements Initializable {
 
-    private static final int MAX_TOKENS = 6;
+    private static final int MAX_CREATURE_TOKENS = 6;
 
     @FXML
-    private TableView<Creature> tokensTableView;
+    private TableView<CardCounter> tokensTableView;
+
+    @FXML
+    private TableColumn<CardCounter, String> tokenNameColumn;
+
+    @FXML
+    private TableColumn<CardCounter, Integer> tokenCountColumn;
+
+    @FXML
+    private TableColumn<CardCounter, Button> tokenCountIncColumn;
+
+    @FXML
+    private TableColumn<CardCounter, Button> tokenCountDecColumn;
+
+    @FXML
+    private TableColumn<CardCounter, Button> tokenCountForgeColumn;
+
+    @FXML
+    private TableView<Creature> creaturesTableView;
 
     @FXML
     private TableColumn<Creature, Integer> creatureIdColumn;
@@ -53,26 +72,65 @@ public class TokensTableController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        initTable();
-        initTableColumns();
-        initControls();
+        initTokensTable();
+        initTokensTableColumns();
+
+        initCreaturesTable();
+        initCreaturesTableColumns();
+        initCreaturesControls();
     }
 
-    private void initTable() {
-        Dimension screenSize = InterfaceUtils.getScreenSize();
-
-        tokensTableView.setPrefSize(
-                screenSize.width - InterfaceUtils.WINDOW_WIDTH_DELTA,
-                screenSize.height - InterfaceUtils.WINDOW_HEIGHT_DELTA - 150
+    private void initTokensTable() {
+        ObservableList<CardCounter> tokenCounters = FXCollections.observableArrayList(
+                Token.generateTokens().stream()
+                .map(CardCounter::new)
+                .toArray(CardCounter[]::new)
         );
 
-        ObservableList<Creature> creatures = FXCollections.observableArrayList();
-        tokensTableView.setItems(creatures);
-
-        tokensTableView.setEditable(true);
+        tokensTableView.setItems(tokenCounters);
     }
 
-    private void initTableColumns() {
+    private void initTokensTableColumns() {
+        initTokenNameColumn();
+        initTokenCountColumn();
+        initTokenControlColumns();
+    }
+
+    private void initTokenNameColumn() {
+        tokenNameColumn.setCellValueFactory(
+                new PropertyValueFactory<>("name")
+        );
+    }
+
+    private void initTokenCountColumn() {
+        tokenCountColumn.setCellValueFactory(
+                new PropertyValueFactory<>("count")
+        );
+    }
+
+    private void initTokenControlColumns() {
+//        tokenCountIncColumn.setCellFactory(
+//                column -> {
+////                    new LisC
+//                }
+//        );
+    }
+
+    private void initCreaturesTable() {
+//        Dimension screenSize = InterfaceUtils.getScreenSize();
+//
+//        tokensTableView.setPrefSize(
+//                screenSize.width - InterfaceUtils.WINDOW_WIDTH_DELTA,
+//                screenSize.height - InterfaceUtils.WINDOW_HEIGHT_DELTA - 150
+//        );
+
+        ObservableList<Creature> creatures = FXCollections.observableArrayList();
+        creaturesTableView.setItems(creatures);
+
+        creaturesTableView.setEditable(true);
+    }
+
+    private void initCreaturesTableColumns() {
         initIdColumn();
         initNameColumn();
 
@@ -84,7 +142,7 @@ public class TokensTableController implements Initializable {
         creatureIdColumn.setSortable(false);
         creatureIdColumn.setCellValueFactory(
                 column -> new ReadOnlyObjectWrapper<>(
-                        tokensTableView.getItems().indexOf(column.getValue())
+                        creaturesTableView.getItems().indexOf(column.getValue())
                 )
         );
     }
@@ -110,7 +168,7 @@ public class TokensTableController implements Initializable {
                     )
             );
 
-            tokensTableView.getColumns().add(attributeColumn);
+            creaturesTableView.getColumns().add(attributeColumn);
         }
     }
 
@@ -119,7 +177,7 @@ public class TokensTableController implements Initializable {
                 Token.generateTokens()
         );
 
-        for (int tokenIndex = 0; tokenIndex < MAX_TOKENS; ++tokenIndex) {
+        for (int tokenIndex = 0; tokenIndex < MAX_CREATURE_TOKENS; ++tokenIndex) {
             TableColumn<Creature, Token> tokenColumn = new TableColumn<>((tokenIndex + 1) + "");
 
             int finalTokenIndex = tokenIndex;
@@ -144,17 +202,17 @@ public class TokensTableController implements Initializable {
 
             tokenColumn.setOnEditCommit(edit -> {
                 edit.getRowValue().setToken(finalTokenIndex, edit.getNewValue());
-                tokensTableView.refresh();
+                creaturesTableView.refresh();
             });
 
             tokenColumn.setEditable(true);
             tokenColumn.setPrefWidth(100);
 
-            tokensTableView.getColumns().add(tokenColumn);
+            creaturesTableView.getColumns().add(tokenColumn);
         }
     }
 
-    private void initControls() {
+    private void initCreaturesControls() {
         initComboboxes();
         initButtons();
     }
@@ -217,7 +275,7 @@ public class TokensTableController implements Initializable {
     }
 
     private void initButtons() {
-        ObservableList<Creature> creatures = tokensTableView.getItems();
+        ObservableList<Creature> creatures = creaturesTableView.getItems();
 
         addCreatureButton.setOnAction(
                 event -> {
@@ -232,7 +290,7 @@ public class TokensTableController implements Initializable {
 
         removeCreatureButton.setOnAction(
                 event -> {
-                    int selectedIndex = tokensTableView.getSelectionModel().getSelectedIndex();
+                    int selectedIndex = creaturesTableView.getSelectionModel().getSelectedIndex();
                     if (selectedIndex >= 0) {
                         creatures.remove(selectedIndex);
                     }
