@@ -1,4 +1,4 @@
-package com.slamur.app.deckwarlords.calculator;
+ package com.slamur.app.deckwarlords.calculator;
 
 import com.slamur.app.deckwarlords.cards.Attribute;
 import com.slamur.app.deckwarlords.cards.Card;
@@ -159,13 +159,6 @@ public class TokensTableController implements Initializable {
     }
 
     private void initCreaturesTable() {
-//        Dimension screenSize = InterfaceUtils.getScreenSize();
-//
-//        tokensTableView.setPrefSize(
-//                screenSize.width - InterfaceUtils.WINDOW_WIDTH_DELTA,
-//                screenSize.height - InterfaceUtils.WINDOW_HEIGHT_DELTA - 150
-//        );
-
         ObservableList<Creature> creatures = FXCollections.observableArrayList();
         creaturesTableView.setItems(creatures);
 
