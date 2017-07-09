@@ -96,6 +96,8 @@ public class TokensTableController implements Initializable {
                     return new ReadOnlyObjectWrapper<>(creature.toString());
                 }
         );
+
+        creatureNameColumn.setPrefWidth(150);
     }
 
     private void initAttributeColumns() {
