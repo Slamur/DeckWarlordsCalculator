@@ -2,10 +2,15 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
 
+<?import com.slamur.lib.javafx.table.column.ButtonColumn?>
 <GridPane fx:controller="com.slamur.app.deckwarlords.calculator.TokensTableController"
           xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
 
     <HBox GridPane.rowIndex="0" spacing="20">
+        <GridPane.margin>
+            <Insets left="20" right="20"/>
+        </GridPane.margin>
+
         <TableView fx:id="creaturesTableView">
             <columns>
                 <TableColumn text="Index" fx:id="creatureIdColumn"/>
@@ -17,9 +22,9 @@
             <columns>
                 <TableColumn text="Name" fx:id="tokenNameColumn"/>
                 <TableColumn text="Count" fx:id="tokenCountColumn"/>
-                <TableColumn text="Inc" fx:id="tokenCountIncColumn"/>
-                <TableColumn text="Dec" fx:id="tokenCountDecColumn"/>
-                <TableColumn text="Forge" fx:id="tokenCountForgeColumn"/>
+                <ButtonColumn text="Inc" fx:id="tokenCountIncColumn"/>
+                <ButtonColumn text="Dec" fx:id="tokenCountDecColumn"/>
+                <ButtonColumn text="Forge" fx:id="tokenCountForgeColumn"/>
             </columns>
         </TableView>
     </HBox>
