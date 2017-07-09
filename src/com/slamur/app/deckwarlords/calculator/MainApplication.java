@@ -24,8 +24,6 @@ public class MainApplication extends Application {
                 getClass().getResource("TokensCalculator.fxml")
         );
 
-//        ((GridPane)root).setGridLinesVisible(true);
-
         primaryStage.setTitle("Deck Warlords calculator");
 
         Dimension screenSize = InterfaceUtils.getScreenSize();
