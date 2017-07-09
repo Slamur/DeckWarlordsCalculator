@@ -153,8 +153,8 @@ public class TokensTableController implements Initializable {
                 )
         );
 
-        tokenCountIncColumn.setPrefWidth(PREF_BUTTON_WIDTH);
-        tokenCountDecColumn.setPrefWidth(PREF_BUTTON_WIDTH);
+        tokenCountIncColumn.setPrefWidth(PREF_NUMBER_WIDTH);
+        tokenCountDecColumn.setPrefWidth(PREF_NUMBER_WIDTH);
         tokenCountForgeColumn.setPrefWidth(PREF_BUTTON_WIDTH);
     }
 
