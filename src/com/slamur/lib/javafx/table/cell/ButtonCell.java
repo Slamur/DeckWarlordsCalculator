@@ -24,8 +24,10 @@ public class ButtonCell<ValueType> extends TableCell<ValueType, ValueType> {
         if(!empty){
             setGraphic(cellButton);
             if (value != null) {
-                cellButton.setOnAction(event -> consumer.accept(value));
-                getTableView().refresh();
+                cellButton.setOnAction(event -> {
+                    consumer.accept(value);
+                    getTableView().refresh();
+                });
             }
         }
     }
