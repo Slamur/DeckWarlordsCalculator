@@ -12,6 +12,38 @@ public interface  Creatures {
 
     ///////////////// Common //////////////////////////////////////
 
+    CreatureInfo GARGOYLE = new CreatureImpl("Gargoyle", 1, 1, 2, 2)
+            .setAttributeValues(Attribute.DAMAGE, 5, 5, 8, 8)
+            .setAttributeValues(Attribute.HEALTH, 14, 16, 20, 25)
+            .setAttributeValue(Attribute.INITIATIVE, 15);
+
+    CreatureInfo GOBLIN = new CreatureImpl("Goblin", 1, 1, 1, 2)
+            .setAttributeValues(Attribute.DAMAGE, 2, 3, 4, 5)
+            .setAttributeValues(Attribute.HEALTH, 12, 12, 16, 16)
+            .setAttributeValue(Attribute.INITIATIVE, 35);
+
+    CreatureInfo RAT = new CreatureImpl("Rat", 1, 1, 1, 1)
+            .setAttributeValues(Attribute.DAMAGE, 3, 3, 4, 4)
+            .setAttributeValues(Attribute.HEALTH, 8, 10, 12, 14)
+            .setAttributeValue(Attribute.INITIATIVE, 30)
+            .setAttributeValues(Attribute.ARMOR, 0, 0, 0, 1);
+
+    CreatureInfo SPIDER = new CreatureImpl("Spider", 1, 1, 1, 2)
+            .setAttributeValues(Attribute.DAMAGE, 2, 2, 3, 3)
+            .setAttributeValues(Attribute.HEALTH, 14, 16, 18, 20)
+            .setAttributeValue(Attribute.INITIATIVE, 35);
+
+    CreatureInfo WARRIOR = new CreatureImpl("Warrior", 1, 1, 1, 2)
+            .setAttributeValues(Attribute.DAMAGE, 4, 4, 6, 7)
+            .setAttributeValues(Attribute.HEALTH, 12, 15, 17, 20)
+            .setAttributeValue(Attribute.INITIATIVE, 25)
+            .setAttributeValues(Attribute.ARMOR, 1, 2, 2, 3);
+
+    CreatureInfo WORM = new CreatureImpl("Worm", 1, 1, 1, 2)
+            .setAttributeValues(Attribute.DAMAGE, 2, 3, 3, 4)
+            .setAttributeValues(Attribute.HEALTH, 10, 10, 15, 15)
+            .setAttributeValue(Attribute.INITIATIVE, 30);
+
     ///////////////// Uncommon //////////////////////////////////////
 
     ///////////////// Rare //////////////////////////////////////
@@ -111,7 +143,7 @@ public interface  Creatures {
 
     CreatureInfo[][] CREATURES = {
             // common
-            {},
+            { RAT, WARRIOR, WORM, GARGOYLE, GOBLIN, SPIDER },
             // uncommon
             {},
             // rare
