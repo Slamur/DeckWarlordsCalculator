@@ -7,7 +7,6 @@ import com.slamur.app.deckwarlords.cards.CreatureInfo;
 import com.slamur.app.deckwarlords.cards.creatures.Creatures;
 import com.slamur.app.deckwarlords.cards.stars.Creature;
 import com.slamur.app.deckwarlords.cards.stars.Token;
-import com.slamur.app.deckwarlords.cards.tokens.Tokens;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,9 +15,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.cell.ComboBoxTableCell;
+import javafx.util.StringConverter;
 
 import java.awt.*;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 import java.util.stream.IntStream;
 
@@ -36,10 +37,7 @@ public class TokensTableController implements Initializable {
     private TableColumn<Creature, String> creatureNameColumn;
 
     @FXML
-    private Button addCreatureButton;
-
-    @FXML
-    private Button removeCreatureButton;
+    private ComboBox<Integer> creatureRarityComboBox;
 
     @FXML
     private ComboBox<CreatureInfo> creatureTypesComboBox;
@@ -47,11 +45,17 @@ public class TokensTableController implements Initializable {
     @FXML
     private ComboBox<Integer> creatureStarsComboBox;
 
+    @FXML
+    private Button addCreatureButton;
+
+    @FXML
+    private Button removeCreatureButton;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initTable();
         initTableColumns();
-        initButtons();
+        initControls();
     }
 
     private void initTable() {
@@ -148,12 +152,54 @@ public class TokensTableController implements Initializable {
         }
     }
 
-    private void initButtons() {
-        ObservableList<Creature> creatures = tokensTableView.getItems();
+    private void initControls() {
+        initComboboxes();
+        initButtons();
+    }
 
-        creatureTypesComboBox.setItems(
-                FXCollections.observableArrayList(Creatures.CREATURES)
+    private void initComboboxes() {
+        ObservableList<CreatureInfo>[] creaturesByRarity = Arrays.stream(Creatures.CREATURES)
+                .map(creatures -> {
+                    Arrays.sort(creatures, (a, b) -> a.getName().compareTo(b.getName()));
+                    return creatures;
+                })
+                .map(FXCollections::observableArrayList)
+                .toArray(ObservableList[]::new);
+
+        creatureRarityComboBox.setItems(
+                FXCollections.observableArrayList(
+                        IntStream.range(0, Creatures.RARITIES.length)
+                        .mapToObj(Integer::valueOf)
+                        .toArray(Integer[]::new)
+                )
         );
+
+        creatureRarityComboBox.setConverter(new StringConverter<Integer>() {
+            @Override
+            public String toString(Integer index) {
+                return Creatures.RARITIES[index];
+            }
+
+            @Override
+            public Integer fromString(String string) {
+                for (int index = 0; index < Creatures.RARITIES.length; ++index) {
+                    if (Creatures.RARITIES[index].equals(string)) return index;
+                }
+
+                return -1;
+            }
+        });
+
+        creatureRarityComboBox.valueProperty().addListener(
+                (observable, oldValue, newValue) -> {
+                    if (newValue.equals(oldValue)) return;
+
+                    creatureTypesComboBox.setItems(creaturesByRarity[newValue]);
+                    creatureTypesComboBox.getSelectionModel().selectFirst();
+                }
+        );
+
+        creatureRarityComboBox.getSelectionModel().selectFirst();
 
         creatureTypesComboBox.getSelectionModel().selectFirst();
 
@@ -166,6 +212,10 @@ public class TokensTableController implements Initializable {
         );
 
         creatureStarsComboBox.getSelectionModel().selectFirst();
+    }
+
+    private void initButtons() {
+        ObservableList<Creature> creatures = tokensTableView.getItems();
 
         addCreatureButton.setOnAction(
                 event -> {

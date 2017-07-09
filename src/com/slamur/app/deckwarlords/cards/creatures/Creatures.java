@@ -5,6 +5,21 @@ import com.slamur.app.deckwarlords.cards.CreatureInfo;
 
 public interface  Creatures {
 
+    String[] RARITIES = {
+        "Common", "Uncommon", "Rare",
+        "Epic", "Legendary", "Mystic"
+    };
+
+    ///////////////// Common //////////////////////////////////////
+
+    ///////////////// Uncommon //////////////////////////////////////
+
+    ///////////////// Rare //////////////////////////////////////
+
+    ///////////////// Epic //////////////////////////////////////
+
+    ///////////////// Legendary //////////////////////////////////////
+
     CreatureInfo NECROMANCER = new CreatureImpl("Necro", 4, 5, 5, 6)
             .setAttributeValues(Attribute.DAMAGE, 7, 8, 9, 10)
             .setAttributeValues(Attribute.HEALTH, 40, 46, 52, 58)
@@ -16,7 +31,20 @@ public interface  Creatures {
             .setAttributeValue(Attribute.INITIATIVE, 25)
             .setAttributeValues(Attribute.ARMOR, 2, 3, 3, 4);
 
-    CreatureInfo[] CREATURES = {
-        NECROMANCER, DEATHBRINGER
+    ///////////////// Mystic //////////////////////////////////////
+
+    CreatureInfo[][] CREATURES = {
+            // common
+            {},
+            // uncommon
+            {},
+            // rare
+            {},
+            // epic
+            {},
+            // legendary
+            { NECROMANCER, DEATHBRINGER },
+            // mystic
+            {}
     };
 }
