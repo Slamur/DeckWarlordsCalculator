@@ -32,4 +32,13 @@ public abstract class CardImpl<CardType extends CardInfo> implements Card<CardTy
     public String toString() {
         return getName() + " (" + getStars() + "*)";
     }
+
+    @Override
+    public boolean isParent(Card<?> other) {
+        String thisName = this.getCard().getName(),
+                otherName = other.getCard().getName();
+
+        return thisName.equals(otherName)
+                && this.getStars() == other.getStars() + 1;
+    }
 }

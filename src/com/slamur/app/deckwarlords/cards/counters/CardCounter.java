@@ -4,7 +4,7 @@ import com.slamur.app.deckwarlords.cards.Card;
 
 public class CardCounter {
 
-    private Card card;
+    private Card<?> card;
     private int count;
 
     public CardCounter(Card card) {
@@ -16,7 +16,7 @@ public class CardCounter {
         this.count = count;
     }
 
-    public Card getCard() {
+    public Card<?> getCard() {
         return card;
     }
 

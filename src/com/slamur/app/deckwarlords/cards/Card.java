@@ -6,4 +6,6 @@ public interface Card <CardType extends CardInfo> {
 
     String getName();
     int getStars();
+
+    boolean isParent(Card<?> other);
 }
