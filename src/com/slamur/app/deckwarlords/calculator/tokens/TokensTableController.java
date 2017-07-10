@@ -116,7 +116,7 @@ public class TokensTableController implements Initializable {
     private void updateToken(Token token, int delta) {
         if (token != null) {
             tokensTableView.getItems().filtered(
-                    tokenCounter -> tokenCounter.getCard() == token
+                    tokenCounter -> tokenCounter.getCard().equals(token)
             ).forEach(tokenCounter -> tokenCounter.update(delta));
 
             tokensTableView.refresh();
@@ -190,10 +190,18 @@ public class TokensTableController implements Initializable {
         tokenCountForgeColumn.setPrefWidth(PREF_BUTTON_WIDTH);
     }
 
-    private void initCreaturesTable() {
-        ObservableList<Creature> creatures = FXCollections.observableArrayList();
-        creaturesTableView.setItems(creatures);
+    private void saveCreatures() {
+        FileTokenInfoService.saveCreatures(
+                creaturesTableView.getItems()
+        );
+    }
 
+    private void initCreaturesTable() {
+        ObservableList<Creature> creatures = FXCollections.observableArrayList(
+                FileTokenInfoService.loadCreatures()
+        );
+
+        creaturesTableView.setItems(creatures);
         creaturesTableView.setEditable(true);
     }
 
@@ -246,9 +254,10 @@ public class TokensTableController implements Initializable {
     }
 
     private void initCreatureTokenColumns() {
-        ObservableList<Token> tokens = FXCollections.observableArrayList(
-                Token.generateTokens()
-        );
+        ObservableList<Token> tokens = FXCollections.observableArrayList();
+
+        tokens.add(null);
+        tokens.addAll(Token.generateTokens());
 
         for (int tokenIndex = 0; tokenIndex < MAX_CREATURE_TOKENS; ++tokenIndex) {
             TableColumn<Creature, Token> tokenColumn = new TableColumn<>((tokenIndex + 1) + "");
@@ -281,6 +290,8 @@ public class TokensTableController implements Initializable {
                 updateToken(newToken, -1);
 
                 edit.getRowValue().setToken(finalTokenIndex, newToken);
+
+                saveCreatures();
                 creaturesTableView.refresh();
             });
 
@@ -364,6 +375,7 @@ public class TokensTableController implements Initializable {
                     );
 
                     creatures.add(creature);
+                    saveCreatures();
                 }
         );
 
@@ -372,6 +384,7 @@ public class TokensTableController implements Initializable {
                     int selectedIndex = creaturesTableView.getSelectionModel().getSelectedIndex();
                     if (selectedIndex >= 0) {
                         Creature creature = creatures.remove(selectedIndex);
+                        saveCreatures();
 
                         for (int tokenIndex = 0; tokenIndex < creature.getMaxTokens(); ++tokenIndex) {
                             updateToken(creature.getToken(tokenIndex), 1);

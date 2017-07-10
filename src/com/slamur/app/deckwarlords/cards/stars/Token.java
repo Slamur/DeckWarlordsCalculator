@@ -20,7 +20,7 @@ public class Token extends CardImpl<TokenInfo> implements Card<TokenInfo>, Token
         return tokens;
     }
 
-    public Token(TokenInfo token, int stars) {
+    private Token(TokenInfo token, int stars) {
         super(token, stars);
     }
 

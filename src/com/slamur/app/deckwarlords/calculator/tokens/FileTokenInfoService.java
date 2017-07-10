@@ -1,9 +1,17 @@
 package com.slamur.app.deckwarlords.calculator.tokens;
 
+import com.slamur.app.deckwarlords.cards.Attribute;
+import com.slamur.app.deckwarlords.cards.CreatureInfo;
 import com.slamur.app.deckwarlords.cards.counters.CardCounter;
+import com.slamur.app.deckwarlords.cards.creatures.Creatures;
+import com.slamur.app.deckwarlords.cards.stars.Creature;
+import com.slamur.app.deckwarlords.cards.stars.Token;
 import javafx.collections.ObservableList;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.StringTokenizer;
 
 class FileTokenInfoService {
@@ -20,7 +28,9 @@ class FileTokenInfoService {
 
         try {
             file = new File(fileName);
-            if (!file.exists()) file.createNewFile();
+            if (!file.exists() && !file.createNewFile()) {
+                throw new IOException();
+            }
         } catch (IOException e) {
             System.err.println("File " + fileName + " can't be created:");
             e.printStackTrace();
@@ -67,5 +77,74 @@ class FileTokenInfoService {
             System.err.println("Problem with token counters reading:");
             e.printStackTrace();
         }
+    }
+
+    static void saveCreatures(ObservableList<Creature> creatures) {
+        File creaturesFile = getExistingFile(CREATURES_FILE_NAME, Tsv.EXTENSION);
+
+        try (PrintWriter out = new PrintWriter(creaturesFile)) {
+            for (Creature creature : creatures) {
+                out.print(creature.getName());
+                out.print(Tsv.DELIMITER + creature.getStars());
+
+                for (int tokenIndex = 0; tokenIndex < creature.getMaxTokens(); ++tokenIndex) {
+                    Token token = creature.getToken(tokenIndex);
+
+                    out.print(Tsv.DELIMITER);
+                    if (null != token) {
+                         out.print(token.toString());
+                    }
+                }
+
+                out.println();
+            }
+        } catch (IOException e) {
+            System.err.println("Problem with creatures saving:");
+            e.printStackTrace();
+        }
+    }
+
+    static List<Creature> loadCreatures() {
+        File creaturesFile = getExistingFile(CREATURES_FILE_NAME, Tsv.EXTENSION);
+
+        List<Creature> creatures = new ArrayList<>();
+        try (BufferedReader in = new BufferedReader(new FileReader(creaturesFile))) {
+            List<Token> tokens = Token.generateTokens();
+
+            for (String line; (line = in.readLine()) != null; ){
+                StringTokenizer tok = new StringTokenizer(line, Tsv.DELIMITER);
+
+                String name = tok.nextToken();
+                int stars = Integer.parseInt(tok.nextToken());
+
+                Creature creature = null;
+
+                for (CreatureInfo[] creaturesArray : Creatures.CREATURES) {
+                    for (CreatureInfo creatureInfo : creaturesArray) {
+                        if (creatureInfo.getName().equals(name)) {
+                            creature = new Creature(creatureInfo, stars);
+                        }
+                    }
+                }
+
+                for (int tokenIndex = 0; tokenIndex < creature.getMaxTokens(); ++tokenIndex) {
+                    String tokenName = tok.nextToken();
+                    if (tokenName.isEmpty()) continue;
+
+                    Token selectedToken = tokens.stream()
+                            .filter(token -> token.toString().equals(tokenName))
+                            .findFirst().get();
+
+                    creature.setToken(tokenIndex, selectedToken);
+                }
+
+                creatures.add(creature);
+            }
+        } catch (IOException e) {
+            System.err.println("Problem with creatures reading:");
+            e.printStackTrace();
+        }
+
+        return creatures;
     }
 }

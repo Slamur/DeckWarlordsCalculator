@@ -41,4 +41,13 @@ public abstract class CardImpl<CardType extends CardInfo> implements Card<CardTy
         return thisName.equals(otherName)
                 && this.getStars() == other.getStars() + 1;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Card)) return false;
+
+        Card other = (Card)obj;
+
+        return this.toString().equals(other.toString());
+    }
 }
