@@ -82,7 +82,38 @@ public interface  Creatures {
 
     ///////////////// Rare //////////////////////////////////////
 
+    CreatureInfo BLACKSMITH = new CreatureImpl("Blacksmith", 3, 3, 3, 3)
+            .setAttributeValues(Attribute.DAMAGE, 7, 7, 9, 9)
+            .setAttributeValues(Attribute.HEALTH, 15, 20, 20, 25)
+            .setAttributeValue(Attribute.INITIATIVE, 20)
+            .setAttributeValue(Attribute.ARMOR, 1);
 
+    CreatureInfo CYCLOPS = new CreatureImpl("Cyclops", 2, 3, 3, 4)
+            .setAttributeValues(Attribute.DAMAGE, 12, 12, 18, 18)
+            .setAttributeValues(Attribute.HEALTH, 15, 20, 25, 30)
+            .setAttributeValue(Attribute.INITIATIVE, 15)
+            .setAttributeValue(Attribute.ARMOR, 2);
+
+    CreatureInfo ENT = new CreatureImpl("Ent", 3, 3, 3, 3)
+            .setAttributeValue(Attribute.DAMAGE, 3)
+            .setAttributeValues(Attribute.HEALTH, 30, 35, 40, 45)
+            .setAttributeValue(Attribute.INITIATIVE, 10);
+
+    CreatureInfo HELLHOUND = new CreatureImpl("Hellhound", 3, 3, 3, 4)
+            .setAttributeValues(Attribute.DAMAGE, 3, 3, 4, 4)
+            .setAttributeValues(Attribute.HEALTH, 14, 16, 16, 18)
+            .setAttributeValue(Attribute.INITIATIVE, 40);
+
+    CreatureInfo KNIGHT = new CreatureImpl("Knight", 2, 3, 3, 3)
+            .setAttributeValues(Attribute.DAMAGE, 8, 10, 12, 14)
+            .setAttributeValues(Attribute.HEALTH, 24, 28, 32, 36)
+            .setAttributeValue(Attribute.INITIATIVE, 30)
+            .setAttributeValues(Attribute.ARMOR, 2, 2, 3, 3);
+
+    CreatureInfo PHOENIX = new CreatureImpl("Phoenix", 3, 3, 4, 4)
+            .setAttributeValues(Attribute.DAMAGE, 5, 6, 7, 8)
+            .setAttributeValues(Attribute.HEALTH, 15, 17, 19, 21)
+            .setAttributeValue(Attribute.INITIATIVE, 35);
 
     ///////////////// Epic //////////////////////////////////////
 
@@ -183,7 +214,7 @@ public interface  Creatures {
             // uncommon
             { COUGAR, GREMLIN, LIZARD, ROGUE, SKELETON, WISP },
             // rare
-            {},
+            { KNIGHT, PHOENIX, BLACKSMITH, HELLHOUND, CYCLOPS, ENT },
             // epic
             { ANGEL, WITCH_DOCTOR, SKELETON_KING, MINOTAUR, BLOOD_KNIGHT, DRAKE, WEREWOLF },
             // legendary
