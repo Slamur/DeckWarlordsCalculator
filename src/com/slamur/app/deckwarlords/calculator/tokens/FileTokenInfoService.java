@@ -9,10 +9,7 @@ import com.slamur.app.deckwarlords.cards.stars.Token;
 import javafx.collections.ObservableList;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.util.*;
 
 class FileTokenInfoService {
 
@@ -127,15 +124,20 @@ class FileTokenInfoService {
                     }
                 }
 
+                if (creature == null) continue;
+
                 for (int tokenIndex = 0; tokenIndex < creature.getMaxTokens(); ++tokenIndex) {
-                    String tokenName = tok.nextToken();
-                    if (tokenName.isEmpty()) continue;
+                    try {
+                        String tokenName = tok.nextToken();
+                        if (tokenName.isEmpty()) continue;
 
-                    Token selectedToken = tokens.stream()
-                            .filter(token -> token.toString().equals(tokenName))
-                            .findFirst().get();
+                        Token selectedToken = tokens.stream()
+                                .filter(token -> token.toString().equals(tokenName))
+                                .findFirst().get();
 
-                    creature.setToken(tokenIndex, selectedToken);
+                        creature.setToken(tokenIndex, selectedToken);
+                    } catch (NoSuchElementException ignored) {
+                    }
                 }
 
                 creatures.add(creature);
