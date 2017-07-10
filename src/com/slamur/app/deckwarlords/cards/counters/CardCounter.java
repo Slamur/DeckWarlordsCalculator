@@ -24,6 +24,10 @@ public class CardCounter {
         return count;
     }
 
+    public void setCount(int count) {
+        this.count = count;
+    }
+
     public int update(int delta) {
         this.count += delta;
         return getCount();
