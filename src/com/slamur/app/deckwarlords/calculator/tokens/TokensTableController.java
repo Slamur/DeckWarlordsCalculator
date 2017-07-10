@@ -1,4 +1,4 @@
- package com.slamur.app.deckwarlords.calculator;
+ package com.slamur.app.deckwarlords.calculator.tokens;
 
 import com.slamur.app.deckwarlords.cards.Attribute;
 import com.slamur.app.deckwarlords.cards.Card;
@@ -107,12 +107,33 @@ public class TokensTableController implements Initializable {
         tokensTableView.setPrefWidth(InterfaceUtils.getScreenSize().width / 4);
     }
 
+    private void saveTokenCounters() {
+        FileTokenInfoService.saveTokenCounters(
+                tokensTableView.getItems()
+        );
+    }
+
+    private void updateToken(Token token, int delta) {
+        if (token != null) {
+            tokensTableView.getItems().filtered(
+                    tokenCounter -> tokenCounter.getCard() == token
+            ).forEach(tokenCounter -> tokenCounter.update(delta));
+
+            tokensTableView.refresh();
+            saveTokenCounters();
+        }
+    }
+
     private void initTokensTableColumns() {
         initTokenNameColumn();
         initTokenCountColumn();
         initTokenControlColumns();
 
         initTablePrefWidth(tokensTableView);
+
+        FileTokenInfoService.updateTokenCounters(
+                tokensTableView.getItems()
+        );
     }
 
     private void initTokenNameColumn() {
@@ -131,11 +152,21 @@ public class TokensTableController implements Initializable {
 
     private void initTokenControlColumns() {
         tokenCountIncColumn.setCellFactory(
-                column -> new ButtonCell<>("+", CardCounter::inc)
+                column -> new ButtonCell<>("+",
+                        counter -> {
+                            counter.inc();
+                            saveTokenCounters();
+                        }
+                )
         );
 
         tokenCountDecColumn.setCellFactory(
-                column -> new ButtonCell<>("-", CardCounter::dec)
+                column -> new ButtonCell<>("-",
+                        counter -> {
+                            counter.dec();
+                            saveTokenCounters();
+                        }
+                )
         );
 
         tokenCountForgeColumn.setCellFactory(
@@ -143,12 +174,13 @@ public class TokensTableController implements Initializable {
                         counter -> {
                             if (counter.getCard().getStars() == 0) return;
 
-                            tokensTableView.getItems().stream().filter(
+                            tokensTableView.getItems().filtered(
                                     other -> counter.getCard().isParent(other.getCard())
                                     )
                                     .forEach(other -> other.update(-3));
 
                             counter.inc();
+                            saveTokenCounters();
                         }
                 )
         );
@@ -243,18 +275,10 @@ public class TokensTableController implements Initializable {
 
             tokenColumn.setOnEditCommit(edit -> {
                 Token oldToken = edit.getOldValue();
-                if (oldToken != null) {
-                    int oldTokenIndex = tokens.indexOf(oldToken);
-                    tokensTableView.getItems().get(oldTokenIndex).inc();
-                    tokensTableView.refresh();
-                }
+                updateToken(oldToken, 1);
 
                 Token newToken = edit.getNewValue();
-                if (newToken != null) {
-                    int newTokenIndex = tokens.indexOf(newToken);
-                    tokensTableView.getItems().get(newTokenIndex).dec();
-                    tokensTableView.refresh();
-                }
+                updateToken(newToken, -1);
 
                 edit.getRowValue().setToken(finalTokenIndex, newToken);
                 creaturesTableView.refresh();
@@ -347,7 +371,11 @@ public class TokensTableController implements Initializable {
                 event -> {
                     int selectedIndex = creaturesTableView.getSelectionModel().getSelectedIndex();
                     if (selectedIndex >= 0) {
-                        creatures.remove(selectedIndex);
+                        Creature creature = creatures.remove(selectedIndex);
+
+                        for (int tokenIndex = 0; tokenIndex < creature.getMaxTokens(); ++tokenIndex) {
+                            updateToken(creature.getToken(tokenIndex), 1);
+                        }
                     }
                 }
         );

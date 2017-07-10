@@ -21,7 +21,7 @@ public class MainApplication extends Application {
 
     private void initScene(Stage primaryStage) throws IOException {
         Parent root = FXMLLoader.load(
-                getClass().getResource("TokensCalculator.fxml")
+                getClass().getResource("tokens/TokensCalculator.fxml")
         );
 
         primaryStage.setTitle("Deck Warlords calculator");
