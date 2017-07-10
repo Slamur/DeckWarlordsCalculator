@@ -28,8 +28,10 @@ public class MainApplication extends Application {
 
         Dimension screenSize = InterfaceUtils.getScreenSize();
         primaryStage.setScene(
-                new Scene(root, screenSize.width, screenSize.height)
+                new Scene(root, screenSize.width * 2 / 3, screenSize.height / 2)
         );
+
+        primaryStage.setMaximized(true);
     }
 
     public static void main(String[] args) {
