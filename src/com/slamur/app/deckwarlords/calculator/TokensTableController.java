@@ -242,7 +242,21 @@ public class TokensTableController implements Initializable {
             );
 
             tokenColumn.setOnEditCommit(edit -> {
-                edit.getRowValue().setToken(finalTokenIndex, edit.getNewValue());
+                Token oldToken = edit.getOldValue();
+                if (oldToken != null) {
+                    int oldTokenIndex = tokens.indexOf(oldToken);
+                    tokensTableView.getItems().get(oldTokenIndex).inc();
+                    tokensTableView.refresh();
+                }
+
+                Token newToken = edit.getNewValue();
+                if (newToken != null) {
+                    int newTokenIndex = tokens.indexOf(newToken);
+                    tokensTableView.getItems().get(newTokenIndex).dec();
+                    tokensTableView.refresh();
+                }
+
+                edit.getRowValue().setToken(finalTokenIndex, newToken);
                 creaturesTableView.refresh();
             });
 
