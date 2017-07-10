@@ -208,6 +208,14 @@ public interface  Creatures {
 
     ///////////////// Mythical //////////////////////////////////////
 
+    CreatureInfo GIANT = new CreatureImpl("Giant", 5, 6, 6, 6)
+            .setAttributeValues(Attribute.DAMAGE, 5, 5, 7, 7)
+            .setAttributeValues(Attribute.HEALTH, 180, 210, 210, 240)
+            .setAttributeValue(Attribute.INITIATIVE, 15)
+            .setAttributeValues(Attribute.ARMOR, 4, 4, 5, 5);
+
+    /////////////////////////////////////////////////////////////////
+
     CreatureInfo[][] CREATURES = {
             // common
             { RAT, WARRIOR, WORM, GARGOYLE, GOBLIN, SPIDER },
@@ -220,6 +228,6 @@ public interface  Creatures {
             // legendary
             { NECROMANCER, DEATHBRINGER, WIZARD, GOLEM, URUK, VAMPIRE, OGRE, WHITE_WALKER },
             // mythical
-            {}
+            { GIANT }
     };
 }
