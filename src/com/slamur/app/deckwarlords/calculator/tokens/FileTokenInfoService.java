@@ -8,7 +8,8 @@ import java.util.StringTokenizer;
 
 class FileTokenInfoService {
 
-    private static final String TOKENS_FILE_NAME = "tokens", CREATURES_FILE_NAME = "creatures";
+    private static final String TOKENS_FILE_NAME = "Free tokens",
+            CREATURES_FILE_NAME = "Creatures with tokens";
 
     private interface Tsv {
         String EXTENSION = "tsv", DELIMITER = "\t";
@@ -37,8 +38,7 @@ class FileTokenInfoService {
 
         try (PrintWriter out = new PrintWriter(tokensFile)) {
             for (CardCounter tokenCounter : tokenCounters) {
-                out.print(tokenCounter.getCard().getName());
-                out.print(Tsv.DELIMITER + tokenCounter.getCard().getStars());
+                out.print(tokenCounter.getCard().toString());
                 out.print(Tsv.DELIMITER + tokenCounter.getCount());
 
                 out.println();
@@ -56,13 +56,11 @@ class FileTokenInfoService {
             for (String line; (line = in.readLine()) != null; ){
                 StringTokenizer tok = new StringTokenizer(line, Tsv.DELIMITER);
 
-                String name = tok.nextToken();
-                int stars = Integer.parseInt(tok.nextToken());
+                String fullName = tok.nextToken();
                 int count = Integer.parseInt(tok.nextToken());
 
                 tokenCounters.filtered(
-                        counter -> counter.getCard().getName().equals(name)
-                                && counter.getCard().getStars() == stars
+                        counter -> counter.getCard().toString().equals(fullName)
                 ).forEach(counter -> counter.setCount(count));
             }
         } catch (IOException e) {
