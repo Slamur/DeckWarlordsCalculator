@@ -29,8 +29,8 @@ public class MainApplication extends Application {
         Dimension screenSize = InterfaceUtils.getScreenSize();
         primaryStage.setScene(
                 new Scene(root,
-                        screenSize.width - InterfaceUtils.WINDOW_WIDTH_DELTA,
-                        screenSize.height - InterfaceUtils.WINDOW_HEIGHT_DELTA
+                        screenSize.width,
+                        screenSize.height
                 )
         );
     }
