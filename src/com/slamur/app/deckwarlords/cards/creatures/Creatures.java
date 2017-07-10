@@ -46,7 +46,43 @@ public interface  Creatures {
 
     ///////////////// Uncommon //////////////////////////////////////
 
+    CreatureInfo COUGAR = new CreatureImpl("Cougar", 2, 2, 2, 3)
+            .setAttributeValues(Attribute.DAMAGE, 8, 10, 12, 14)
+            .setAttributeValues(Attribute.HEALTH, 15, 15, 22, 22)
+            .setAttributeValue(Attribute.INITIATIVE, 45)
+            .setAttributeValues(Attribute.ARMOR, 0, 0, 1, 1);
+
+    CreatureInfo GREMLIN = new CreatureImpl("Gremlin", 1, 2, 2, 3)
+            .setAttributeValue(Attribute.DAMAGE, 3)
+            .setAttributeValues(Attribute.HEALTH, 20, 20, 24, 24)
+            .setAttributeValue(Attribute.INITIATIVE, 15)
+            .setAttributeValues(Attribute.ARMOR, 2, 3, 3, 4);
+
+    CreatureInfo LIZARD = new CreatureImpl("Lizard", 1, 2, 2, 3)
+            .setAttributeValues(Attribute.DAMAGE, 4, 4, 5, 5)
+            .setAttributeValues(Attribute.HEALTH, 14, 14, 18, 18)
+            .setAttributeValue(Attribute.INITIATIVE, 15)
+            .setAttributeValues(Attribute.ARMOR, 0, 1, 1, 1);
+
+    CreatureInfo ROGUE = new CreatureImpl("Rogue", 2, 2, 3, 3)
+            .setAttributeValues(Attribute.DAMAGE, 4, 5, 6, 7)
+            .setAttributeValues(Attribute.HEALTH, 14, 16, 18, 20)
+            .setAttributeValue(Attribute.INITIATIVE, 50);
+
+    CreatureInfo SKELETON = new CreatureImpl("Skeleton", 1, 2, 2, 3)
+            .setAttributeValues(Attribute.DAMAGE, 6, 7, 8, 9)
+            .setAttributeValues(Attribute.HEALTH, 16, 20, 24, 28)
+            .setAttributeValue(Attribute.INITIATIVE, 30)
+            .setAttributeValues(Attribute.ARMOR, 1, 1, 2, 3);
+
+    CreatureInfo WISP = new CreatureImpl("Wisp", 3, 3, 3, 3)
+            .setAttributeValues(Attribute.DAMAGE, 2, 3, 4, 5)
+            .setAttributeValues(Attribute.HEALTH, 10, 14, 18, 22)
+            .setAttributeValue(Attribute.INITIATIVE, 25);
+
     ///////////////// Rare //////////////////////////////////////
+
+
 
     ///////////////// Epic //////////////////////////////////////
 
@@ -145,7 +181,7 @@ public interface  Creatures {
             // common
             { RAT, WARRIOR, WORM, GARGOYLE, GOBLIN, SPIDER },
             // uncommon
-            {},
+            { COUGAR, GREMLIN, LIZARD, ROGUE, SKELETON, WISP },
             // rare
             {},
             // epic
