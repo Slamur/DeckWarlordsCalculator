@@ -5,7 +5,7 @@ import com.slamur.app.deckwarlords.cards.*;
 
 public class Creature extends CardImpl<CreatureInfo> implements Card<CreatureInfo> {
 
-    private Map<Attribute, Integer> attributeMap;
+    private Map<Attribute, Double> attributeMap;
     private List<Token> tokens;
 
     public Creature(CreatureInfo creature, int stars) {
@@ -26,13 +26,13 @@ public class Creature extends CardImpl<CreatureInfo> implements Card<CreatureInf
     }
 
     public int getAttributeValue(Attribute attribute) {
-        return attributeMap.get(attribute);
+        return (int)Math.round(attributeMap.get(attribute));
     }
 
     private void updateAttributes() {
         for (Attribute attribute : Attribute.values()) {
             attributeMap.put(
-                    attribute, card.getAttributeValue(attribute, stars)
+                    attribute, card.getAttributeValue(attribute, stars) * 1.0
             );
         }
 
@@ -41,10 +41,10 @@ public class Creature extends CardImpl<CreatureInfo> implements Card<CreatureInf
 
             Attribute tokenAttribute = token.getCard().getAttribute();
 
-            int oldAttributeValue = attributeMap.get(tokenAttribute);
+            double oldAttributeValue = attributeMap.get(tokenAttribute);
 
-            int nextAttributeValue = oldAttributeValue + token.getAdditionalPart();
-            nextAttributeValue *= token.getMultiplier();
+            double nextAttributeValue = oldAttributeValue + token.getAdditionalPart();
+            nextAttributeValue = nextAttributeValue * token.getMultiplier();
 
             attributeMap.put(tokenAttribute, nextAttributeValue);
         }
