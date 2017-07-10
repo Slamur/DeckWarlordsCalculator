@@ -30,7 +30,9 @@ public abstract class CardImpl<CardType extends CardInfo> implements Card<CardTy
 
     @Override
     public String toString() {
-        return getName() + " (" + getStars() + "*)";
+        String string = getName();
+        if (!string.isEmpty()) string += " (" + getStars() + "*)";
+        return string;
     }
 
     @Override

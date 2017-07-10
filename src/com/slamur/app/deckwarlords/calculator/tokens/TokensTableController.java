@@ -256,7 +256,7 @@ public class TokensTableController implements Initializable {
     private void initCreatureTokenColumns() {
         ObservableList<Token> tokens = FXCollections.observableArrayList();
 
-        tokens.add(null);
+        tokens.add(Token.NO_TOKEN);
         tokens.addAll(Token.generateTokens());
 
         for (int tokenIndex = 0; tokenIndex < MAX_CREATURE_TOKENS; ++tokenIndex) {
@@ -289,7 +289,9 @@ public class TokensTableController implements Initializable {
                 Token newToken = edit.getNewValue();
                 updateToken(newToken, -1);
 
-                edit.getRowValue().setToken(finalTokenIndex, newToken);
+                edit.getRowValue().setToken(finalTokenIndex,
+                        newToken.equals(Token.NO_TOKEN) ? null : newToken
+                );
 
                 saveCreatures();
                 creaturesTableView.refresh();

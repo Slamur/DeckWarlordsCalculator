@@ -9,6 +9,8 @@ import java.util.List;
 
 public class Token extends CardImpl<TokenInfo> implements Card<TokenInfo>, Tokens {
 
+    public static final Token NO_TOKEN = new Token(Tokens.NO_TOKEN, 0);
+
     public static List<Token> generateTokens() {
         List<Token> tokens = new ArrayList<>();
         for (TokenInfo tokenInfo : TOKENS) {

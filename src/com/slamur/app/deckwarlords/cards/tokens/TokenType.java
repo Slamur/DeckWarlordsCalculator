@@ -2,7 +2,7 @@ package com.slamur.app.deckwarlords.cards.tokens;
 
 public enum TokenType {
 
-    ADDITIVE("+"), MULTIPLICATIVE("%");
+    NONE(""), ADDITIVE("+"), MULTIPLICATIVE("%");
 
     private String alias;
 

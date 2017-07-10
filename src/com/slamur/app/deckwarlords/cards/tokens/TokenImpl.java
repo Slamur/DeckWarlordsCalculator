@@ -11,8 +11,14 @@ public class TokenImpl extends CardInfoImpl implements TokenInfo {
 
     private final int[] coefficients;
 
+    private static String getTokenName(Attribute attribute, TokenType type) {
+        return type.equals(TokenType.NONE)
+                ? ""
+                : attribute.getAlias() + type.getAlias();
+    }
+
     TokenImpl(Attribute attribute, TokenType type, int... coefficients) {
-        super(attribute.getAlias() + type.getAlias());
+        super(getTokenName(attribute, type));
 
         this.attribute = attribute;
         this.type = type;
