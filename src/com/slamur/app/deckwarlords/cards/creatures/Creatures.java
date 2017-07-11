@@ -214,6 +214,17 @@ public interface  Creatures {
             .setAttributeValue(Attribute.INITIATIVE, 15)
             .setAttributeValues(Attribute.ARMOR, 4, 4, 5, 5);
 
+    CreatureInfo MYSTIC = new CreatureImpl("Mystic", 6, 6, 6, 6)
+            .setAttributeValues(Attribute.DAMAGE, 30, 35, 35, 40)
+            .setAttributeValues(Attribute.HEALTH, 29, 32, 32, 36)
+            .setAttributeValue(Attribute.INITIATIVE, 25)
+            .setAttributeValues(Attribute.ARMOR, 7, 8, 9, 10);
+
+    CreatureInfo FLAMING_DEATH = new CreatureImpl("Flaming Death", 5, 6, 6, 6)
+            .setAttributeValues(Attribute.DAMAGE, 14, 14, 17, 17)
+            .setAttributeValues(Attribute.HEALTH, 30, 34, 38, 42)
+            .setAttributeValue(Attribute.INITIATIVE, 45);
+
     /////////////////////////////////////////////////////////////////
 
     CreatureInfo[][] CREATURES = {
@@ -228,6 +239,6 @@ public interface  Creatures {
             // legendary
             { NECROMANCER, DEATHBRINGER, WIZARD, GOLEM, URUK, VAMPIRE, OGRE, WHITE_WALKER },
             // mythical
-            { GIANT }
+            { GIANT, MYSTIC, FLAMING_DEATH }
     };
 }
