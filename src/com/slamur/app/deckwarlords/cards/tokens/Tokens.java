@@ -15,7 +15,7 @@ public interface Tokens {
     TokenInfo INITIATIVE_MULT = new TokenImpl(Attribute.INITIATIVE, TokenType.MULTIPLICATIVE, 20, 30, 40, 50);
 
     TokenInfo ARMOR_PLUS = new TokenImpl(Attribute.ARMOR, TokenType.ADDITIVE, 1, 2);
-    TokenInfo THORNS_PLUS = new TokenImpl(Attribute.THORNS, TokenType.ADDITIVE, 1, 2, 3);
+    TokenInfo THORNS_PLUS = new TokenImpl(Attribute.THORNS, TokenType.ADDITIVE, 1, 2, 3, 4);
 
     TokenInfo NO_TOKEN = new TokenImpl(Attribute.INITIATIVE, TokenType.NONE, 0);
 
