@@ -25,8 +25,12 @@ public class Creature extends CardImpl<CreatureInfo> implements Card<CreatureInf
         return card.getMaxTokens(stars);
     }
 
+    private int toIntValue(double value) {
+        return (int)Math.round(value);
+    }
+
     public int getAttributeValue(Attribute attribute) {
-        return (int)Math.round(attributeMap.get(attribute));
+        return toIntValue(attributeMap.get(attribute));
     }
 
     private void updateAttributes() {
@@ -45,6 +49,7 @@ public class Creature extends CardImpl<CreatureInfo> implements Card<CreatureInf
 
             double nextAttributeValue = oldAttributeValue + token.getAdditionalPart();
             nextAttributeValue = nextAttributeValue * token.getMultiplier();
+            nextAttributeValue = toIntValue(nextAttributeValue);
 
             attributeMap.put(tokenAttribute, nextAttributeValue);
         }
