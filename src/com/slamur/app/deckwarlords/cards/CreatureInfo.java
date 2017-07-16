@@ -10,7 +10,7 @@ public interface CreatureInfo extends CardInfo {
 
     CreatureInfo setAttributeValues(Attribute attribute, int... values);
     default CreatureInfo setAttributeValue(Attribute attribute, int value) {
-        int[] values = new int[getMaxStars()];
+        int[] values = new int[getMaxStars() + 1];
         Arrays.fill(values, value);
 
         return setAttributeValues(attribute, values);
@@ -18,6 +18,6 @@ public interface CreatureInfo extends CardInfo {
 
     @Override
     default int getMaxStars() {
-        return 4;
+        return 3;
     }
 }

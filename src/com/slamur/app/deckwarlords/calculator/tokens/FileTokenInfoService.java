@@ -1,15 +1,18 @@
 package com.slamur.app.deckwarlords.calculator.tokens;
 
-import com.slamur.app.deckwarlords.cards.Attribute;
 import com.slamur.app.deckwarlords.cards.CreatureInfo;
 import com.slamur.app.deckwarlords.cards.counters.CardCounter;
 import com.slamur.app.deckwarlords.cards.creatures.Creatures;
 import com.slamur.app.deckwarlords.cards.stars.Creature;
 import com.slamur.app.deckwarlords.cards.stars.Token;
+import com.slamur.lib.file.FileUtils;
 import javafx.collections.ObservableList;
 
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.StringTokenizer;
 
 class FileTokenInfoService {
 
@@ -20,28 +23,8 @@ class FileTokenInfoService {
         String EXTENSION = "tsv", DELIMITER = "\t";
     }
 
-    private static File getExistingFile(String fileName) {
-        File file = null;
-
-        try {
-            file = new File(fileName);
-            if (!file.exists() && !file.createNewFile()) {
-                throw new IOException();
-            }
-        } catch (IOException e) {
-            System.err.println("File " + fileName + " can't be created:");
-            e.printStackTrace();
-        }
-
-        return file;
-    }
-
-    private static File getExistingFile(String fileName, String extension) {
-        return getExistingFile(fileName + "." + extension);
-    }
-
     static void saveTokenCounters(ObservableList<CardCounter> tokenCounters) {
-        File tokensFile = getExistingFile(TOKENS_FILE_NAME, Tsv.EXTENSION);
+        File tokensFile = FileUtils.getExistingFile(TOKENS_FILE_NAME, Tsv.EXTENSION);
 
         try (PrintWriter out = new PrintWriter(tokensFile)) {
             for (CardCounter tokenCounter : tokenCounters) {
@@ -57,7 +40,7 @@ class FileTokenInfoService {
     }
 
     static void updateTokenCounters(ObservableList<CardCounter> tokenCounters) {
-        File tokensFile = getExistingFile(TOKENS_FILE_NAME, Tsv.EXTENSION);
+        File tokensFile = FileUtils.getExistingFile(TOKENS_FILE_NAME, Tsv.EXTENSION);
 
         try (BufferedReader in = new BufferedReader(new FileReader(tokensFile))) {
             for (String line; (line = in.readLine()) != null; ){
@@ -77,7 +60,7 @@ class FileTokenInfoService {
     }
 
     static void saveCreatures(ObservableList<Creature> creatures) {
-        File creaturesFile = getExistingFile(CREATURES_FILE_NAME, Tsv.EXTENSION);
+        File creaturesFile = FileUtils.getExistingFile(CREATURES_FILE_NAME, Tsv.EXTENSION);
 
         try (PrintWriter out = new PrintWriter(creaturesFile)) {
             for (Creature creature : creatures) {
@@ -102,7 +85,7 @@ class FileTokenInfoService {
     }
 
     static List<Creature> loadCreatures() {
-        File creaturesFile = getExistingFile(CREATURES_FILE_NAME, Tsv.EXTENSION);
+        File creaturesFile = FileUtils.getExistingFile(CREATURES_FILE_NAME, Tsv.EXTENSION);
 
         List<Creature> creatures = new ArrayList<>();
         try (BufferedReader in = new BufferedReader(new FileReader(creaturesFile))) {
