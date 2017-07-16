@@ -8,22 +8,20 @@ import com.slamur.app.deckwarlords.cards.counters.CardCounter;
 import com.slamur.app.deckwarlords.cards.creatures.Creatures;
 import com.slamur.app.deckwarlords.cards.stars.Creature;
 import com.slamur.app.deckwarlords.cards.stars.Token;
+
 import com.slamur.lib.javafx.InterfaceUtils;
-import com.slamur.lib.javafx.table.cell.ButtonCell;
+import com.slamur.lib.javafx.table.cell.*;
 import com.slamur.lib.javafx.table.column.ButtonColumn;
+
 import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
+import javafx.fxml.*;
+import javafx.collections.*;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.cell.ComboBoxTableCell;
-import javafx.util.StringConverter;
+import javafx.util.*;
 
 import java.net.URL;
-import java.util.Arrays;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.util.function.Function;
 import java.util.stream.IntStream;
 
 public class TokensTableController implements Initializable {
@@ -280,8 +278,13 @@ public class TokensTableController implements Initializable {
                     }
             );
 
+            Function<Creature, Boolean> activatingTokenCondition =
+                    creature -> (finalTokenIndex < creature.getMaxTokens());
+
             tokenColumn.setCellFactory(
-                    ComboBoxTableCell.forTableColumn(tokens)
+                    column -> new ActivatingComboboxCell<Creature, Token>(
+                            tokens, activatingTokenCondition
+                    )
             );
 
             tokenColumn.setCellValueFactory(
