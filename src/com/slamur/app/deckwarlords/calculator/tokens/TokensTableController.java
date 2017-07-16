@@ -28,8 +28,6 @@ import java.util.stream.IntStream;
 
 public class TokensTableController implements Initializable {
 
-    private static final int MAX_CREATURE_TOKENS = 6;
-
     private static final int PREF_NUMBER_WIDTH = 45,
             PREF_BUTTON_WIDTH = 65,
             PREF_CREATURE_NAME_WIDTH = 140,
@@ -259,7 +257,17 @@ public class TokensTableController implements Initializable {
         tokens.add(Token.NO_TOKEN);
         tokens.addAll(Token.generateTokens());
 
-        for (int tokenIndex = 0; tokenIndex < MAX_CREATURE_TOKENS; ++tokenIndex) {
+        int maxCreatureTokens = 0;
+        for (CreatureInfo[] creatureInfos : Creatures.CREATURES) {
+            for (CreatureInfo creatureInfo : creatureInfos) {
+                int creatureMaxStars = creatureInfo.getMaxStars();
+                int creatureMaxTokens = creatureInfo.getMaxTokens(creatureMaxStars);
+
+                maxCreatureTokens = Math.max(maxCreatureTokens, creatureMaxTokens);
+            }
+        }
+
+        for (int tokenIndex = 0; tokenIndex < maxCreatureTokens; ++tokenIndex) {
             TableColumn<Creature, Token> tokenColumn = new TableColumn<>((tokenIndex + 1) + "");
 
             int finalTokenIndex = tokenIndex;
