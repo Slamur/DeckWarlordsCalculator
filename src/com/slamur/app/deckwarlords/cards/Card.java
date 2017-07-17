@@ -8,4 +8,6 @@ public interface Card <CardType extends CardInfo> {
     int getStars();
 
     boolean isParent(Card<?> other);
+
+    String toUserString();
 }

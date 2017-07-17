@@ -28,8 +28,8 @@ public class TokensTableController implements Initializable {
 
     private static final int PREF_NUMBER_WIDTH = 45,
             PREF_BUTTON_WIDTH = 65,
-            PREF_CREATURE_NAME_WIDTH = 140,
-            PREF_TOKEN_NAME_WIDTH = 70;
+            PREF_CREATURE_NAME_WIDTH = 110,
+            PREF_TOKEN_NAME_WIDTH = 76;
 
     @FXML
     private TableView<CardCounter> tokensTableView;
@@ -134,7 +134,7 @@ public class TokensTableController implements Initializable {
 
     private void initTokenNameColumn() {
         tokenNameColumn.setCellValueFactory(
-                column -> new ReadOnlyObjectWrapper<>(column.getValue().getCard().toString())
+                column -> new ReadOnlyObjectWrapper<>(column.getValue().getCard().toUserString())
         );
 
         tokenNameColumn.setPrefWidth(PREF_TOKEN_NAME_WIDTH);
@@ -281,9 +281,24 @@ public class TokensTableController implements Initializable {
             Function<Creature, Boolean> activatingTokenCondition =
                     creature -> (finalTokenIndex < creature.getMaxTokens());
 
+            StringConverter<Token> tokenStringConverter = new StringConverter<Token>() {
+                @Override
+                public String toString(Token token) {
+                    return (token == null ? "" : token.toUserString());
+                }
+
+                @Override
+                public Token fromString(String string) {
+                    for (Token token : tokens) if (token.toUserString().equals(string)) return token;
+                    return null;
+                }
+            };
+
             tokenColumn.setCellFactory(
                     column -> new ActivatingComboboxCell<Creature, Token>(
-                            tokens, activatingTokenCondition
+                            tokenStringConverter,
+                            tokens,
+                            activatingTokenCondition
                     )
             );
 

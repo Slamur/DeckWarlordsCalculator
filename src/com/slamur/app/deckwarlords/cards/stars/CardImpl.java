@@ -28,11 +28,19 @@ public abstract class CardImpl<CardType extends CardInfo> implements Card<CardTy
         return card.getName();
     }
 
+    private String toStringWithStars(String base) {
+        if (!base.isEmpty()) base += " (" + getStars() + "*)";
+        return base;
+    }
+
     @Override
     public String toString() {
-        String string = getName();
-        if (!string.isEmpty()) string += " (" + getStars() + "*)";
-        return string;
+        return toStringWithStars(getName());
+    }
+
+    @Override
+    public String toUserString() {
+        return toStringWithStars(card.toUserString(stars));
     }
 
     @Override

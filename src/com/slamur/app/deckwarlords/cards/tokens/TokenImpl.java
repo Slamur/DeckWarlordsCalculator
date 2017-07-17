@@ -50,4 +50,13 @@ public class TokenImpl extends CardInfoImpl implements TokenInfo {
     public int getMaxStars() {
         return coefficients.length;
     }
+
+    @Override
+    public String toUserString(int stars) {
+        if (!getName().isEmpty()) {
+            return attribute.getAlias() + " " + coefficients[stars] + type.getAlias();
+        } else {
+            return getName();
+        }
+    }
 }

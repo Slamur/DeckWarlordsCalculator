@@ -17,4 +17,9 @@ public abstract class CardInfoImpl implements CardInfo {
     public String toString() {
         return getName();
     }
+
+    @Override
+    public String toUserString(int stars) {
+        return toString();
+    }
 }
